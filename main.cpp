@@ -5,6 +5,7 @@
 #include <espeak-ng/speak_lib.h>
 #include <flatbuffers/flatbuffers.h>
 #include <fmt/core.h>
+#include <sol/version.hpp>
 
 int main() {
   int openal_major, openal_minor;
@@ -17,5 +18,6 @@ int main() {
   fmt::print("OpenAL version: {}.{}\n", openal_major, openal_minor);
   fmt::print("SDL revision: {}\n", SDL_GetRevision());
   fmt::print("SDL2pp version: {}\n", SDL2PP_VERSION);
+  fmt::print("sol2 version: {}\n", SOL_VERSION_STRING);
   return 0;
 }

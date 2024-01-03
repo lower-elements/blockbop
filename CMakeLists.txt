@@ -81,7 +81,16 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2pp
 )
 
-    FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp)
+FetchContent_Declare(
+  sol2
+  URL https://github.com/ThePhD/sol2/archive/refs/tags/v3.3.0.tar.gz
+  URL_HASH MD5=05021725f7a3e0b91e19250d001deb8e
+  TLS_VERIFY true
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+  FIND_PACKAGE_ARGS NAMES sol2
+)
+
+    FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp sol2)
     if (NOT enet_FOUND)
     FetchContent_MakeAvailable(enet)
     endif()
@@ -93,5 +102,5 @@ FetchContent_Declare(
 add_executable(tmp main.cpp)
 
 # Link SDL2 library
-target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL espeak-ng)
+target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL espeak-ng sol2)
 
