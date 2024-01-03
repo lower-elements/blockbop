@@ -2,11 +2,11 @@
 #include <cstdlib>
 #include <exception>
 
-#include "application.hpp"
+#include "blockbop.hpp"
 
 int main() {
   try {
-    Application app("BlockBop");
+    Blockbop app;
     return app.run();
   } catch (const std::exception &e) {
     // Show the error to the user and exit
