@@ -28,6 +28,17 @@ FetchContent_Declare(
   DOWNLOAD_EXTRACT_TIMESTAMP true
 )
 
+set(ALSOFT_UTILS OFF CACHE INTERNAL "ALSOFT_UTILS")
+set(ALSOFT_NO_CONFIG_UTIL ON CACHE INTERNAL "ALSOFT_NO_CONFIG_UTIL")
+set(ALSOFT_EXAMPLES OFF CACHE INTERNAL "ALSOFT_EXAMPLES")
+FetchContent_Declare(
+    OpenAL
+	URL https://github.com/kcat/openal-soft/archive/refs/tags/1.23.1.tar.gz
+        URL_HASH MD5=190a60118236644b78488ccab26ebfdf
+	TLS_VERIFY ON
+	DOWNLOAD_EXTRACT_TIMESTAMP true
+        )
+
 FetchContent_Declare(
   SDL2
   URL https://libsdl.org/release/SDL2-2.28.5.tar.gz
@@ -46,13 +57,14 @@ FetchContent_Declare(
   URL_HASH MD5=fdda5cc37fa831458b16a69edb7c833f
   TLS_VERIFY true
   DOWNLOAD_EXTRACT_TIMESTAMP true
+  FIND_PACKAGE_ARGS NAMES SDL2pp
 )
 
-    FetchContent_MakeAvailable(enet flatbuffers fmt SDL2 SDL2pp)
+    FetchContent_MakeAvailable(enet flatbuffers fmt OpenAL SDL2 SDL2pp)
 
 # Your main project
 add_executable(tmp main.cpp)
 
 # Link SDL2 library
-target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers)
+target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL)
 
