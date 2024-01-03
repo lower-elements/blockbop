@@ -1,23 +1,18 @@
 #include <SDL.h>
-#include <SDL2pp/SDL2pp.hh>
-#include <alc.h>
-#include <enet/enet.h>
-#include <espeak-ng/speak_lib.h>
-#include <flatbuffers/flatbuffers.h>
-#include <fmt/core.h>
-#include <sol/version.hpp>
+#include <cstdlib>
+#include <exception>
+
+#include "application.hpp"
 
 int main() {
-  int openal_major, openal_minor;
-  alcGetIntegerv(nullptr, ALC_MAJOR_VERSION, 1, &openal_major);
-  alcGetIntegerv(nullptr, ALC_MINOR_VERSION, 1, &openal_minor);
-  fmt::print("ENet version: {:x}\n", enet_linked_version());
-  fmt::print("espeak-ng version: {}\n", espeak_Info(nullptr));
-  fmt::print("FlatBuffers version: {}\n",
-             flatbuffers::flatbuffers_version_string());
-  fmt::print("OpenAL version: {}.{}\n", openal_major, openal_minor);
-  fmt::print("SDL revision: {}\n", SDL_GetRevision());
-  fmt::print("SDL2pp version: {}\n", SDL2PP_VERSION);
-  fmt::print("sol2 version: {}\n", SOL_VERSION_STRING);
-  return 0;
+  try {
+    Application app("BlockBop");
+    return app.run();
+  } catch (const std::exception &e) {
+    // Show the error to the user and exit
+    SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "%s", e.what());
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Critical Error", e.what(),
+                             nullptr);
+    return EXIT_FAILURE;
+  }
 }
