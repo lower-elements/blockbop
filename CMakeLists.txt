@@ -103,6 +103,7 @@ if (NOT espeak_ng_FOUND)
     FetchContent_MakeAvailable(espeak-ng)
 endif()
 
-# Build the client and server
+# Build the client, server, and their internal support libraries
+add_subdirectory(engine)
 add_subdirectory(client)
 add_subdirectory(server)
