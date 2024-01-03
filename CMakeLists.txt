@@ -3,14 +3,27 @@ cmake_minimum_required(VERSION 3.14)
 project(BlockBop)
 
 include(FetchContent)
-
 find_package(PkgConfig)
+
 pkg_check_modules(enet libenet)
 if(NOT enet_FOUND)
 FetchContent_Declare(
   enet
   URL https://github.com/lsalzman/enet/archive/refs/tags/v1.3.17.tar.gz
   URL_HASH MD5=1c3270f1e03ccb2a8544a88d91d2a368
+  TLS_VERIFY true
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+)
+endif()
+
+pkg_check_modules(espeak_ng espeak-ng)
+if(NOT espeak_ng_FOUND)
+FetchContent_Declare(
+  espeak-ng
+  # This has to be master right now, as the latest release doesn't include the CMake buildsystem
+  URL https://github.com/espeak-ng/espeak-ng/archive/master/espeak-ng-master.tar.gz
+  # Subject to change
+  #URL_HASH MD5=345228581040d3ae7be4fb1d94e9d279
   TLS_VERIFY true
   DOWNLOAD_EXTRACT_TIMESTAMP true
 )
@@ -72,10 +85,13 @@ FetchContent_Declare(
     if (NOT enet_FOUND)
     FetchContent_MakeAvailable(enet)
     endif()
+    if (NOT espeak_ng_FOUND)
+    FetchContent_MakeAvailable(espeak-ng)
+    endif()
 
 # Your main project
 add_executable(tmp main.cpp)
 
 # Link SDL2 library
-target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL)
+target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL espeak-ng)
 
