@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(BlockBop)
+project(BlockBop
+    VERSION 0.1.0
+    DESCRIPTION "An accessible 3D voxel game"
+    LANGUAGES CXX
+    )
 
+# Dependencies
 include(FetchContent)
 find_package(PkgConfig)
 
@@ -90,17 +95,14 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES sol2
 )
 
-    FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp sol2)
-    if (NOT enet_FOUND)
+FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp sol2)
+if (NOT enet_FOUND)
     FetchContent_MakeAvailable(enet)
-    endif()
-    if (NOT espeak_ng_FOUND)
+endif()
+if (NOT espeak_ng_FOUND)
     FetchContent_MakeAvailable(espeak-ng)
-    endif()
+endif()
 
-# Your main project
-add_executable(tmp main.cpp)
-
-# Link SDL2 library
-target_link_libraries(tmp PRIVATE SDL2::SDL2 enet SDL2pp::SDL2pp fmt::fmt flatbuffers OpenAL::OpenAL espeak-ng sol2)
-
+# Build the client and server
+add_subdirectory(client)
+add_subdirectory(server)
