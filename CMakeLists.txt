@@ -4,6 +4,9 @@ project(BlockBop)
 
 include(FetchContent)
 
+find_package(PkgConfig)
+pkg_check_modules(enet libenet)
+if(NOT enet_FOUND)
 FetchContent_Declare(
   enet
   URL https://github.com/lsalzman/enet/archive/refs/tags/v1.3.17.tar.gz
@@ -11,6 +14,7 @@ FetchContent_Declare(
   TLS_VERIFY true
   DOWNLOAD_EXTRACT_TIMESTAMP true
 )
+endif()
 
 FetchContent_Declare(
   flatbuffers
@@ -64,7 +68,10 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2pp
 )
 
-    FetchContent_MakeAvailable(enet flatbuffers fmt OpenAL SDL2 SDL2pp)
+    FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp)
+    if (NOT enet_FOUND)
+    FetchContent_MakeAvailable(enet)
+    endif()
 
 # Your main project
 add_executable(tmp main.cpp)
