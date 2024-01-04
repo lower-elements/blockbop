@@ -6,6 +6,10 @@ project(BlockBop
     LANGUAGES CXX
     )
 
+# Global project options
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
 # Dependencies
 include(FetchContent)
 find_package(PkgConfig)
