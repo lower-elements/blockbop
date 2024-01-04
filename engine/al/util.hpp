@@ -4,6 +4,7 @@
 #include <exception>
 #include <string>
 
+#include <al.h>
 #include <alc.h>
 
 namespace openal {
@@ -21,9 +22,9 @@ void check_alc_error(ALCdevice *device = nullptr);
 /**
  * An exception class thrown by check_alc_error()
  */
-class Error : std::exception {
+class AlcError : std::exception {
 public:
-  Error(ALCenum errcode, ALCdevice *device = nullptr);
+  AlcError(ALCenum errcode, ALCdevice *device = nullptr);
 
   virtual const char *what() const noexcept override;
 
@@ -31,6 +32,25 @@ private:
   std::string m_errstr;
   ALCdevice *m_device;
   ALCenum m_errcode;
+};
+
+/**
+ * Check for OpenAL errors
+ */
+void check_al_error();
+
+/**
+ * An exception class thrown by check_al_error()
+ */
+class AlError : std::exception {
+public:
+  AlError(ALenum errcode);
+
+  virtual const char *what() const noexcept override;
+
+private:
+  std::string m_errstr;
+  ALenum m_errcode;
 };
 
 } // namespace openal
