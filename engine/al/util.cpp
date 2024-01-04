@@ -5,6 +5,10 @@
 
 namespace openal {
 
+void check_alc_error(ALCcontext *context) {
+  check_alc_error(alcGetContextsDevice(context));
+}
+
 void check_alc_error(Device *device) {
   if (device) {
     check_alc_error(device->get());

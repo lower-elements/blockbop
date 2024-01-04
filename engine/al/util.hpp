@@ -8,11 +8,13 @@
 
 namespace openal {
 
-class Device; // Avoid cyclic references
+// Avoid cyclic references
+class Device;
 
 /**
  * Check for OpenAL context errors
  */
+void check_alc_error(ALCcontext *context);
 void check_alc_error(Device *device);
 void check_alc_error(ALCdevice *device = nullptr);
 

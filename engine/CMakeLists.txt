@@ -1,4 +1,5 @@
 add_library(engine STATIC
+    al/context.cpp
     al/device.cpp
     al/util.cpp
     application.cpp
