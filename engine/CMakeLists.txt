@@ -2,6 +2,7 @@ add_library(engine STATIC
     al/buffer.cpp
     al/context.cpp
     al/device.cpp
+    al/source.cpp
     al/util.cpp
     application.cpp
     application.hpp
