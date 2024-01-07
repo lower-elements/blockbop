@@ -56,6 +56,7 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES fmt
 )
 
+
 set(ALSOFT_UTILS OFF CACHE INTERNAL "ALSOFT_UTILS")
 set(ALSOFT_NO_CONFIG_UTIL ON CACHE INTERNAL "ALSOFT_NO_CONFIG_UTIL")
 set(ALSOFT_EXAMPLES OFF CACHE INTERNAL "ALSOFT_EXAMPLES")
@@ -90,6 +91,17 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2pp
 )
 
+pkg_check_modules(SndFile sndfile)
+if(NOT SndFile_FOUND)
+FetchContent_Declare(
+  sndfile
+  URL https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2.tar.xz
+  URL_HASH MD5=04e2e6f726da7c5dc87f8cf72f250d04
+  TLS_VERIFY true
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+)
+endif()
+
 FetchContent_Declare(
   sol2
   URL https://github.com/ThePhD/sol2/archive/refs/tags/v3.3.0.tar.gz
@@ -105,6 +117,9 @@ if (NOT enet_FOUND)
 endif()
 if (NOT espeak_ng_FOUND)
     FetchContent_MakeAvailable(espeak-ng)
+endif()
+if (NOT SndFile_FOUND)
+    FetchContent_MakeAvailable(sndfile)
 endif()
 
 # Build the client, server, and their internal support libraries
