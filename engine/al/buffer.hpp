@@ -18,6 +18,8 @@ public: // Member methods
   Buffer(const Buffer &) = delete;
   Buffer &operator=(const Buffer &) = delete;
 
+  Buffer(Buffer &&);
+
   ALuint id() const { return m_id; }
   bool isValid() const noexcept { return alIsBuffer(m_id); }
 

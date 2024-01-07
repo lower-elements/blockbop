@@ -16,6 +16,8 @@ Buffer::Buffer() {
 
 Buffer::~Buffer() { alDeleteBuffers(1, &m_id); }
 
+Buffer::Buffer(Buffer &&buf) : m_id(buf.m_id) { buf.m_id = AL_NONE; }
+
 void Buffer::setData(ALenum format, void *data, ALsizei len, ALsizei freq) {
   alBufferData(m_id, format, data, len, freq);
   check_al_error();
