@@ -1,6 +1,6 @@
 #include <cassert>
 #include <exception>
-#include <vector>
+#include <memory>
 
 #include <fmt/core.h>
 
@@ -118,15 +118,13 @@ sf_count_t AudioFile::read(double *ptr, sf_count_t bytes) {
 
 openal::Buffer AudioFile::makeBuffer() {
   auto num_samples = numSamples();
-  std::vector<std::int16_t> samples;
-  samples.reserve(num_samples);
-  auto num_read = read(samples.data(), num_samples);
-  samples.resize(num_read);
+  std::unique_ptr<std::int16_t[]> samples(new std::int16_t[num_samples]);
+  auto num_read = read(samples.get(), num_samples);
   openal::Buffer buf;
   if (m_info.channels == 1) {
-    buf.setMonoData(samples.data(), samples.size(), m_info.samplerate);
+    buf.setMonoData(samples.get(), num_read, m_info.samplerate);
   } else if (m_info.channels == 2) {
-    buf.setStereoData(samples.data(), samples.size(), m_info.samplerate);
+    buf.setStereoData(samples.get(), num_read, m_info.samplerate);
   } else {
     throw std::runtime_error(
         fmt::format("Invalid number of channels, expected 1 or 2, got {}",
