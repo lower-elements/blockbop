@@ -49,7 +49,7 @@ protected: // Functions implemented by subclasses
    */
   virtual void onUserDestroy();
 
-private: // Member variables
+protected: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
   std::unique_ptr<tts::Speaker> m_speaker;
