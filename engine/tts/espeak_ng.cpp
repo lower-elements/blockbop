@@ -8,6 +8,7 @@
 namespace tts {
 
 EspeakNgSpeaker::EspeakNgSpeaker() {
+  espeak_ng_InitializePath(nullptr);
   auto status = espeak_ng_Initialize(nullptr);
   if (status != ENS_OK) {
     char errmsg[256];
@@ -15,6 +16,18 @@ EspeakNgSpeaker::EspeakNgSpeaker() {
     throw std::runtime_error(
         fmt::format("Could not initialize espeak-ng: {}", errmsg));
   }
+  status = espeak_ng_InitializeOutput(ENOUTPUT_MODE_SPEAK_AUDIO, 0, nullptr);
+  if (status != ENS_OK) {
+    char errmsg[256];
+    espeak_ng_GetStatusCodeMessage(status, errmsg, sizeof(errmsg));
+    throw std::runtime_error(
+        fmt::format("Could not initialize espeak-ng: {}", errmsg));
+  }
+
+  espeak_ng_SetParameter(espeakRATE, 300, 0);
+  espeak_ng_SetParameter(espeakPITCH, 50, 0);
+  espeak_ng_SetParameter(espeakRANGE, 60, 0);
+  espeak_ng_SetParameter(espeakVOLUME, 100, 0);
 }
 
 EspeakNgSpeaker::~EspeakNgSpeaker() { espeak_ng_Terminate(); }
