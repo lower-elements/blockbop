@@ -6,6 +6,9 @@
 class Blockbop : public Application {
 public:
   Blockbop();
+
+protected:
+  virtual bool onUserCreate() override;
 };
 
 #endif
