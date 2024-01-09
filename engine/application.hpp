@@ -1,7 +1,11 @@
 #ifndef BBENGINE_APPLICATION_HPP
 #define BBENGINE_APPLICATION_HPP
 
+#include <memory>
+
 #include <SDL2pp/SDL2pp.hh>
+
+#include "tts/speaker.hpp"
 
 /**
  * Base class for an application using this engine
@@ -48,6 +52,7 @@ protected: // Functions implemented by subclasses
 private: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
+  std::unique_ptr<tts::Speaker> m_speaker;
 };
 
 #endif
