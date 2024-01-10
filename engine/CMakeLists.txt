@@ -9,6 +9,7 @@ add_library(engine STATIC
     audio_file.cpp
     audio_file.hpp
     state.cpp
+    state_manager.cpp
     tts/espeak_ng.cpp
     )
 target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

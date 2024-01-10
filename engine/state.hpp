@@ -1,7 +1,11 @@
 #ifndef BBENGINE_STATE_HPP
 #define BBENGINE_STATE_HPP
 
-#include "application.hpp"
+#include <memory>
+#include <type_traits>
+
+// Forward-declare this to avoid a circular reference
+class Application;
 
 class State {
 protected: // Member methods
@@ -45,6 +49,11 @@ private: // Member variables
   State *m_prev_state = nullptr;
   State *m_next_state = nullptr;
   Application &m_app;
+
+  friend class StateManager;
 };
+
+template <class T>
+concept StateSubClass = std::is_base_of<State, T>::value;
 
 #endif
