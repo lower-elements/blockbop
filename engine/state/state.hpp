@@ -48,6 +48,8 @@ private: // Member variables
          // Intrusive linked list members
   State *m_prev_state = nullptr;
   State *m_next_state = nullptr;
+
+protected:
   Application &m_app;
 
   friend class StateManager;
