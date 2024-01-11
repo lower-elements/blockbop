@@ -26,6 +26,11 @@ int Application::run() {
   bool continue_running = true;
   // Main loop
   do {
+    // Process events
+    for (SDL_Event ev; SDL_PollEvent(&ev);) {
+      onUserEvent(ev);
+    }
+
     // update the global application
     continue_running = onUserUpdate();
     // Update all states
@@ -33,6 +38,15 @@ int Application::run() {
   } while (continue_running && m_continue_running);
 
   return EXIT_SUCCESS;
+}
+
+bool Application::onUserEvent(SDL_Event &ev) {
+  // By default we quit if we receive SDL_QUIT
+  if (ev.type == SDL_QUIT) {
+    quit();
+    return true;
+  }
+  return false;
 }
 
 bool Application::onUserCreate() { return true; }

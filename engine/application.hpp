@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include <SDL.h>
 #include <SDL2pp/SDL2pp.hh>
 
 #include "state/manager.hpp"
@@ -50,6 +51,13 @@ protected: // Functions implemented by subclasses
    * @returns true if the application should continue running
    */
   virtual bool onUserUpdate();
+  /**
+   * Process a received SDL event
+   * @param ev The newly received event
+   * @returns true if the Application handled the event, false to proppogate it
+   * to states
+   */
+  virtual bool onUserEvent(SDL_Event &ev);
   /**
    * Called when the application is exitting
    */
