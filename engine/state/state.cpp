@@ -11,3 +11,9 @@ State::~State() {
     m_next_state->m_prev_state = m_prev_state;
   }
 }
+
+void State::onPush() {}
+void State::onPop() {}
+void State::onEnter() {}
+void State::onExit() {}
+bool State::onUpdate() { return true; }
