@@ -14,6 +14,12 @@ public: // Member methods
   StateManager(const StateManager &) = delete;
   StateManager &operator=(const StateManager &) = delete;
 
+  // Functions called by the application
+
+  bool onUpdate();
+
+  // State stack operations:
+
   /**
    * Push a new state object to the top of the stack
    * The state *must* be created with operator new!

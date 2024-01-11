@@ -9,6 +9,15 @@ StateManager::~StateManager() {
   }
 }
 
+bool StateManager::onUpdate() {
+  for (State *state = m_head; state != nullptr; state = state->m_next_state) {
+    if (state->onUpdate()) {
+      break;
+    }
+  }
+  return m_head != nullptr;
+}
+
 void StateManager::push(State *state) {
   // Set prev and next correctly
   state->m_prev_state = nullptr;

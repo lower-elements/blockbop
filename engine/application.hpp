@@ -5,6 +5,7 @@
 
 #include <SDL2pp/SDL2pp.hh>
 
+#include "state_manager.hpp"
 #include "tts/speaker.hpp"
 
 /**
@@ -35,7 +36,7 @@ public:
 
 protected: // Functions implemented by subclasses
   /**
-   * Called onUserce when the application begins running
+   * Called once when the application begins running
    * @returns true if the application should continue running
    */
   virtual bool onUserCreate();
@@ -53,6 +54,8 @@ protected: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
   std::unique_ptr<tts::Speaker> m_speaker;
+  StateManager m_states;
+  bool m_continue_running;
 };
 
 #endif
