@@ -16,6 +16,7 @@ public: // Member methods
 
   // Functions called by the application
 
+  void onEvent(SDL_Event &ev);
   bool onUpdate();
 
   // State stack operations:

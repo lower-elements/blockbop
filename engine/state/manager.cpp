@@ -9,6 +9,14 @@ StateManager::~StateManager() {
   }
 }
 
+void StateManager::onEvent(SDL_Event &ev) {
+  for (State *state = m_head; state != nullptr; state = state->m_next_state) {
+    if (state->onEvent(ev)) {
+      break;
+    }
+  }
+}
+
 bool StateManager::onUpdate() {
   for (State *state = m_head; state != nullptr; state = state->m_next_state) {
     if (state->onUpdate()) {

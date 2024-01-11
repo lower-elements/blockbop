@@ -16,4 +16,5 @@ void State::onPush() {}
 void State::onPop() {}
 void State::onEnter() {}
 void State::onExit() {}
-bool State::onUpdate() { return true; }
+bool State::onEvent(SDL_Event &) { return false; }
+bool State::State::onUpdate() { return true; }

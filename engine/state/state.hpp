@@ -4,6 +4,8 @@
 #include <memory>
 #include <type_traits>
 
+#include <SDL.h>
+
 // Forward-declare this to avoid a circular reference
 class Application;
 
@@ -37,6 +39,12 @@ public:
    * Called before another state becomes the top state on the stack
    */
   virtual void onExit();
+  /**
+   * Process an SDL event
+   * @param ev Event to process
+   * @returns true if the event was processed, false to try next state
+   */
+  virtual bool onEvent(SDL_Event &ev);
   /**
    * Called every frame
    * @returns true if lower states in the stack should be updated, false

@@ -28,7 +28,10 @@ int Application::run() {
   do {
     // Process events
     for (SDL_Event ev; SDL_PollEvent(&ev);) {
-      onUserEvent(ev);
+      if (onUserEvent(ev)) {
+        continue;
+      }
+      m_states.onEvent(ev);
     }
 
     // update the global application
