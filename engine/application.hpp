@@ -34,6 +34,11 @@ public:
    */
   int run();
 
+  /**
+   * Request that the app quit
+   */
+  void quit() noexcept { m_continue_running = false; }
+
 protected: // Functions implemented by subclasses
   /**
    * Called once when the application begins running
@@ -54,6 +59,8 @@ protected: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
   std::unique_ptr<tts::Speaker> m_speaker;
+
+private:
   StateManager m_states;
   bool m_continue_running;
 };

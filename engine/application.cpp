@@ -21,13 +21,16 @@ int Application::run() {
     return EXIT_FAILURE; // Abort
   }
 
+  // This variable handles internal engine quit conditions, the member variable
+  // handles explicit requests to quit via the quit() method
+  bool continue_running = true;
   // Main loop
   do {
     // update the global application
-    m_continue_running = onUserUpdate();
+    continue_running = onUserUpdate();
     // Update all states
-    m_continue_running |= m_states.onUpdate();
-  } while (m_continue_running);
+    continue_running |= m_states.onUpdate();
+  } while (continue_running && m_continue_running);
 
   return EXIT_SUCCESS;
 }
