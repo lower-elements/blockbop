@@ -1,5 +1,5 @@
-#ifndef BBENGINE_STATE_HPP
-#define BBENGINE_STATE_HPP
+#ifndef BBENGINE_STATE_STATE_HPP
+#define BBENGINE_STATE_STATE_HPP
 
 #include <memory>
 #include <type_traits>

@@ -5,7 +5,7 @@
 
 #include <SDL2pp/SDL2pp.hh>
 
-#include "state_manager.hpp"
+#include "state/manager.hpp"
 #include "tts/speaker.hpp"
 
 /**

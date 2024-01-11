@@ -3,7 +3,7 @@
 
 #include <utility>
 
-#include "state.hpp"
+#include "state/state.hpp"
 
 class StateManager {
 public: // Member methods

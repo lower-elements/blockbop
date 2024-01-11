@@ -1,4 +1,4 @@
-#include "state_manager.hpp"
+#include "state/manager.hpp"
 
 StateManager::~StateManager() {
   // Dete all the states
