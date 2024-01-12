@@ -17,6 +17,13 @@ Source::Source() {
 
 Source::~Source() { alDeleteSources(1, &m_id); }
 
+ALenum Source::getState() const {
+  ALenum state;
+  alGetSourcei(m_id, AL_SOURCE_STATE, &state);
+  check_al_error();
+  return state;
+}
+
 void Source::setBuffer(Buffer &buffer) { setBuffer(buffer.id()); }
 
 void Source::setBuffer(ALuint id) {
