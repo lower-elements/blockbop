@@ -67,9 +67,9 @@ public: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
   std::unique_ptr<tts::Speaker> m_speaker;
+  StateManager m_states;
 
 private:
-  StateManager m_states;
   bool m_continue_running;
 };
 
