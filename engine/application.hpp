@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL2pp/SDL2pp.hh>
 
+#include "audio_manager.hpp"
 #include "state/manager.hpp"
 #include "tts/speaker.hpp"
 
@@ -74,6 +75,7 @@ protected: // Functions implemented by subclasses
 public: // Member variables
   SDL2pp::SDL m_sdl;
   SDL2pp::Window m_win;
+  AudioManager m_audio;
   std::unique_ptr<tts::Speaker> m_speaker;
   StateManager m_states;
 
