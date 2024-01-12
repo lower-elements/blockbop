@@ -18,12 +18,12 @@ static sf_count_t rwops_seek(sf_count_t offset, int whence, void *data) {
 
 static sf_count_t rwops_read(void *ptr, sf_count_t count, void *data) {
   auto ops = static_cast<SDL_RWops *>(data);
-  return (sf_count_t)SDL_RWread(ops, ptr, count, 1);
+  return (sf_count_t)SDL_RWread(ops, ptr, 1, count);
 }
 
 static sf_count_t rwops_write(const void *ptr, sf_count_t count, void *data) {
   auto ops = static_cast<SDL_RWops *>(data);
-  return (sf_count_t)SDL_RWwrite(ops, ptr, count, 1);
+  return (sf_count_t)SDL_RWwrite(ops, ptr, 1, count);
 }
 
 static sf_count_t rwops_tell(void *data) {
