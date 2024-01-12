@@ -19,15 +19,25 @@ public: // Member functions
 
   /**
    * Get a reference to a buffer
+   * @param path Path to the audio file to load
    * @returns A reference to a buffer, which will be loaded if it was not loaded
    * already
    */
   openal::Buffer &getBufferByPath(const char *path);
 
+  /**
+   * Play a oneshot source
+   * Retrieves the buffer by path, creates an internal source, and plays it. The
+   * source will automatically be garbage collected when it finishes playing
+   * @param path Path to the audio file to play
+   */
+  void playByPath(const char *path);
+
 private: // Member variables
   openal::Device m_dev;
   openal::Context m_ctx;
   std::unordered_map<std::string, openal::Buffer> m_loaded_buffers;
+  std::unordered_map<ALuint, openal::Source> m_oneshots;
 };
 
 #endif

@@ -16,3 +16,12 @@ openal::Buffer &AudioManager::getBufferByPath(const char *path) {
   // Insert the buffer into the loaded assets, and return a reference to it
   return m_loaded_buffers[path] = std::move(buf);
 }
+
+void AudioManager::playByPath(const char *path) {
+  openal::Buffer &buf = getBufferByPath(path);
+  openal::Source src;
+  ALuint id = src.getID();
+  src.setBuffer(buf);
+  src.play();
+  m_oneshots[id] = std::move(src);
+}
