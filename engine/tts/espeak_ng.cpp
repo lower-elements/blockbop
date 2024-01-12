@@ -32,14 +32,14 @@ EspeakNgSpeaker::EspeakNgSpeaker() {
 
 EspeakNgSpeaker::~EspeakNgSpeaker() { espeak_ng_Terminate(); }
 
-void EspeakNgSpeaker::speak(std::string_view text, bool interrupt) {
+void EspeakNgSpeaker::speak(const std::string &text, bool interrupt) {
   auto flags = espeakCHARS_UTF8;
   if (interrupt) {
     stop();
     flags |= espeakENDPAUSE;
   }
-  auto status = espeak_ng_Synthesize(text.data(), text.size(), 0, POS_CHARACTER,
-                                     0, flags, nullptr, nullptr);
+  auto status = espeak_ng_Synthesize(text.c_str(), text.size() + 1, 0,
+                                     POS_CHARACTER, 0, flags, nullptr, nullptr);
   if (status != ENS_OK) {
     char errmsg[256];
     espeak_ng_GetStatusCodeMessage(status, errmsg, sizeof(errmsg));

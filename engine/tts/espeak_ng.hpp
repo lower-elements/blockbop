@@ -11,7 +11,7 @@ public:
 
   virtual ~EspeakNgSpeaker() override;
 
-  virtual void speak(std::string_view text, bool interrupt = true) override;
+  virtual void speak(const std::string &text, bool interrupt = true) override;
   virtual void key(const char *key, bool interrupt = true) override;
   virtual void stop() override;
 };
