@@ -17,7 +17,8 @@ public:
   /**
    * Constructor
    */
-  Application(const char *title, int width = 640, int height = 480);
+  Application(const char *org_name, const char *app_name, int width = 640,
+              int height = 480);
 
   /**
    * Destructor
@@ -39,6 +40,13 @@ public:
    * Request that the app quit
    */
   void quit() noexcept { m_continue_running = false; }
+
+  /**
+   * Get the app's preference path
+   * @returns A directory path, this is the only directory guaranteed to be
+   * writable
+   */
+  const char *getPrefPath() const { return m_pref_path.get(); }
 
 protected: // Functions implemented by subclasses
   /**
@@ -70,6 +78,7 @@ public: // Member variables
   StateManager m_states;
 
 private:
+  std::unique_ptr<char[], void (*)(void *)> m_pref_path;
   bool m_continue_running;
 };
 

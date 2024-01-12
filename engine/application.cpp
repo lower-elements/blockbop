@@ -4,11 +4,13 @@
 #include "application.hpp"
 #include "tts/espeak_ng.hpp"
 
-Application::Application(const char *title, int width, int height)
+Application::Application(const char *org_name, const char *app_name, int width,
+                         int height)
     : m_sdl(SDL_INIT_VIDEO),
-      m_win(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width,
+      m_win(app_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width,
             height, SDL_WINDOW_HIDDEN),
       m_speaker(std::make_unique<tts::EspeakNgSpeaker>()), m_states(),
+      m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free),
       m_continue_running(true) {}
 
 Application::~Application() { onUserDestroy(); }
