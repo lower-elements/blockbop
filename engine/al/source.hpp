@@ -14,6 +14,9 @@ public: // Member methods
   Source();
   Source(ALuint id);
 
+  Source(Source &&);
+  Source &operator=(Source &&);
+
   ~Source();
 
   // No copy

@@ -15,6 +15,14 @@ Source::Source() {
   check_al_error();
 }
 
+Source::Source(Source &&other) : m_id(other.m_id) { other.m_id = AL_NONE; }
+
+Source &Source::operator=(Source &&other) {
+  m_id = other.m_id;
+  other.m_id = AL_NONE;
+  return *this;
+}
+
 Source::~Source() { alDeleteSources(1, &m_id); }
 
 ALenum Source::getState() const {
