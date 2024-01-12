@@ -22,6 +22,7 @@ public: // Member methods
 
   bool isValid() const noexcept { return alIsSource(m_id); }
 
+  ALuint getID() const { return m_id; }
   ALenum getState() const;
 
   void setBuffer(Buffer &buffer);
