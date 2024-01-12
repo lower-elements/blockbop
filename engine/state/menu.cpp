@@ -23,6 +23,8 @@ bool Menu::onEvent(SDL_Event &ev) {
     case SDLK_DOWN:
       nextItem();
       return true;
+    default:
+      return onKeyDown(ev.key.keysym.sym);
     }
   }
   return false;
@@ -31,10 +33,6 @@ bool Menu::onEvent(SDL_Event &ev) {
 bool Menu::onUpdate() {
   // Menus are (currently) not transparent, so stop rendering here
   return false;
-}
-
-const std::string &Menu::getSelectedItem() const {
-  return m_items.at(m_selected);
 }
 
 void Menu::nextItem() {
@@ -51,3 +49,5 @@ void Menu::prevItem() {
   }
   m_app.m_speaker->speak(getSelectedItem());
 }
+
+bool Menu::onKeyDown(SDL_Keycode) { return false; }

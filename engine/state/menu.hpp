@@ -20,9 +20,12 @@ public: // Member methods
   virtual bool onUpdate() override;
 
 protected: // Helper methods
-  const std::string &getSelectedItem() const;
+  std::string &getSelectedItem() { return m_items.at(m_selected); }
+  const std::string &getSelectedItem() const { return m_items.at(m_selected); }
   void nextItem();
   void prevItem();
+
+  virtual bool onKeyDown(SDL_Keycode sym);
 
 private: // Member variables
   std::string m_title;
