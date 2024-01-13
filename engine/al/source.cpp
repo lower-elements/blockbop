@@ -1,5 +1,7 @@
-#include "al/source.hpp"
+#include <glm/gtc/type_ptr.hpp>
+
 #include "al/buffer.hpp"
+#include "al/source.hpp"
 #include "al/util.hpp"
 
 namespace openal {
@@ -25,11 +27,32 @@ Source &Source::operator=(Source &&other) {
 
 Source::~Source() { alDeleteSources(1, &m_id); }
 
-ALenum Source::getState() const {
-  ALenum state;
-  alGetSourcei(m_id, AL_SOURCE_STATE, &state);
+ALint Source::getInt(ALenum prop) const {
+  ALint val;
+  alGetSourcei(m_id, prop, &val);
   check_al_error();
-  return state;
+  return val;
+}
+
+float Source::getFloat(ALenum prop) const {
+  float val;
+  alGetSourcef(m_id, prop, &val);
+  check_al_error();
+  return val;
+}
+
+glm::vec3 Source::getVec3(ALenum prop) const {
+  float vals[3];
+  alGetSourcefv(m_id, prop, vals);
+  check_al_error();
+  return glm::make_vec3(vals);
+}
+
+glm::ivec3 Source::getIvec3(ALenum prop) const {
+  ALint vals[3];
+  alGetSourceiv(m_id, prop, vals);
+  check_al_error();
+  return glm::make_vec3(vals);
 }
 
 void Source::setBuffer(Buffer &buffer) { setBuffer(buffer.getID()); }
@@ -39,8 +62,32 @@ void Source::setBuffer(ALuint id) {
   check_al_error();
 }
 
-void Source::setPosition(float x, float y, float z) {
-  alSource3f(m_id, AL_POSITION, x, y, z);
+void Source::set(ALenum prop, ALint val) {
+  alSourcei(m_id, prop, val);
+  check_al_error();
+}
+
+void Source::set(ALenum prop, ALfloat val) {
+  alSourcef(m_id, prop, val);
+  check_al_error();
+}
+
+void Source::set(ALenum prop, glm::vec3 val) {
+  alSourcefv(m_id, prop, glm::value_ptr(val));
+  check_al_error();
+}
+
+void Source::set(ALenum prop, glm::ivec3 val) {
+  alSourceiv(m_id, prop, glm::value_ptr(val));
+  check_al_error();
+}
+
+void Source::set(ALenum prop, float x, float y, float z) {
+  alSource3i(m_id, prop, x, y, z);
+  check_al_error();
+}
+void Source::set(ALenum prop, ALint x, ALint y, ALint z) {
+  alSource3f(m_id, prop, x, y, z);
   check_al_error();
 }
 
