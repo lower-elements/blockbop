@@ -38,6 +38,10 @@ private: // Member variables
   openal::Context m_ctx;
   std::unordered_map<std::string, openal::Buffer> m_loaded_buffers;
   std::unordered_map<ALuint, openal::Source> m_oneshots;
+
+public: // OpenAL extension functions / enums
+  ALenum E_DIRECT_CHANNELS_SOFT;
+  ALenum E_REMIX_UNMATCHED_SOFT;
 };
 
 #endif
