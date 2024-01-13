@@ -21,7 +21,7 @@ public: // Member methods
   Buffer(Buffer &&);
   Buffer &operator=(Buffer &&other);
 
-  ALuint id() const { return m_id; }
+  ALuint getID() const { return m_id; }
   bool isValid() const noexcept { return alIsBuffer(m_id); }
 
   void setData(ALenum format, void *data, ALsizei len, ALsizei freq = 48000);

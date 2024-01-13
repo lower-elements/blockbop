@@ -32,7 +32,7 @@ ALenum Source::getState() const {
   return state;
 }
 
-void Source::setBuffer(Buffer &buffer) { setBuffer(buffer.id()); }
+void Source::setBuffer(Buffer &buffer) { setBuffer(buffer.getID()); }
 
 void Source::setBuffer(ALuint id) {
   alSourcei(m_id, AL_BUFFER, id);
