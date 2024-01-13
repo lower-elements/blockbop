@@ -14,4 +14,4 @@ add_library(engine STATIC
     tts/espeak_ng.cpp
     )
 target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(engine PUBLIC espeak-ng fmt OpenAL::OpenAL SDL2 SDL2pp sndfile)
+target_link_libraries(engine PUBLIC espeak-ng fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)

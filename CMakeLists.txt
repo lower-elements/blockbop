@@ -63,6 +63,14 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES fmt
 )
 
+FetchContent_Declare(
+  glm
+  URL https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
+  URL_HASH MD5=69895110052f0d711c9c54fbf385f6f5
+  TLS_VERIFY true
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+  FIND_PACKAGE_ARGS NAMES glm
+)
 
 set(ALSOFT_UTILS OFF CACHE INTERNAL "ALSOFT_UTILS")
 set(ALSOFT_NO_CONFIG_UTIL ON CACHE INTERNAL "ALSOFT_NO_CONFIG_UTIL")
@@ -118,7 +126,7 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES sol2
 )
 
-FetchContent_MakeAvailable(flatbuffers fmt OpenAL SDL2 SDL2pp sol2)
+FetchContent_MakeAvailable(flatbuffers fmt glm OpenAL SDL2 SDL2pp sol2)
 if (NOT enet_FOUND)
     FetchContent_MakeAvailable(enet)
 endif()
