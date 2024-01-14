@@ -3,6 +3,7 @@ add_library(engine STATIC
     al/context.cpp
     al/device.cpp
     al/extensions/extension.cpp
+    al/extensions/direct_channels.cpp
     al/source.cpp
     al/util.cpp
     application.cpp
