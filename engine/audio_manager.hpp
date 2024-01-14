@@ -6,6 +6,7 @@
 #include "al/buffer.hpp"
 #include "al/context.hpp"
 #include "al/device.hpp"
+#include "al/extensions/direct_channels.hpp"
 #include "al/source.hpp"
 #include "audio_file.hpp"
 
@@ -39,9 +40,8 @@ private: // Member variables
   std::unordered_map<std::string, openal::Buffer> m_loaded_buffers;
   std::unordered_map<ALuint, openal::Source> m_oneshots;
 
-public: // OpenAL extension functions / enums
-  ALenum E_DIRECT_CHANNELS_SOFT;
-  ALenum E_REMIX_UNMATCHED_SOFT;
+public: // OpenAL extensions
+  openal::DirectChannelsExtension m_direct_channels;
 };
 
 #endif
