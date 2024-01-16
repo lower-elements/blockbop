@@ -35,6 +35,8 @@ public: // Member functions
    */
   void playByPath(const char *path);
 
+  bool onEvent(SDL_Event &ev);
+
 private:
   void onAlEvent(ALenum event, ALuint object, ALuint param,
                  std::string_view message);

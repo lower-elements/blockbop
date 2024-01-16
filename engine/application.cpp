@@ -30,9 +30,15 @@ int Application::run() {
   do {
     // Process events
     for (SDL_Event ev; SDL_PollEvent(&ev);) {
+      // Is the AudioManager interested?
+      if (m_audio.onEvent(ev)) {
+        continue;
+      }
+      // Is the Application interested?
       if (onUserEvent(ev)) {
         continue;
       }
+      // Forward to states
       m_states.onEvent(ev);
     }
 

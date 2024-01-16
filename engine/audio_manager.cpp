@@ -44,6 +44,30 @@ void AudioManager::playByPath(const char *path) {
   m_oneshots[id] = std::move(src);
 }
 
+bool AudioManager::onEvent(SDL_Event &ev) {
+  // We're only interested in audio events
+  if (ev.type != m_openal_event) {
+    return false;
+  }
+
+  if (ev.user.code == m_events.E_EVENT_TYPE_SOURCE_STATE_CHANGED_SOFT) {
+    // data1 = source, data2 = state
+
+    // Currently we only care about stopped states
+    if ((uintptr_t)ev.user.data2 != AL_STOPPED) {
+      return true;
+    }
+
+    auto iter = m_oneshots.find((ALuint)(uintptr_t)ev.user.data1);
+    if (iter != m_oneshots.end()) {
+      // Source is a finished oneshot, delete it
+      m_oneshots.erase(iter);
+    }
+  }
+
+  return true; // Consume event
+}
+
 void AudioManager::onAlEvent(ALenum event, ALuint object, ALuint param,
                              std::string_view message) {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Received OpenAL event: %.*s",
