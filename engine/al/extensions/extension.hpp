@@ -26,8 +26,8 @@ protected:
    * Convenience function to cast the function pointer to the right type
    * automatically
    */
-  template <FunctionPointer T> T getFunction(const char *name) const {
-    return static_cast<T *>(getProcAddress(name));
+  template <class T> void getFunction(const char *name, T *&val) const {
+    val = (T *)(getProcAddress(name));
   }
 
 private: // Member variable
