@@ -39,7 +39,21 @@ public:
   sf_count_t read(float *ptr, sf_count_t samples);
   sf_count_t read(double *ptr, sf_count_t samples);
 
-  openal::Buffer makeBuffer();
+  /**
+   * Fill a buffer with the entire audio file
+   * @param buf OpenAL buffer to fill
+   * @returns The number of samples read
+   */
+  sf_count_t fillBuffer(openal::Buffer &buf) {
+    return fillBuffer(buf, numSamples());
+  }
+  /**
+   * Fill a buffer with the specified number of samples of data from the audio
+   * file
+   * @param buf OpenAL buffer to fill
+   * @returns The number of samples read
+   */
+  sf_count_t fillBuffer(openal::Buffer &buf, sf_count_t num_samples);
 
 private: // Member variables
   SDL2pp::RWops m_ops;

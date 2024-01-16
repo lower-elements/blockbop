@@ -131,11 +131,9 @@ sf_count_t AudioFile::read(double *ptr, sf_count_t bytes) {
   return res;
 }
 
-openal::Buffer AudioFile::makeBuffer() {
-  auto num_samples = numSamples();
+sf_count_t AudioFile::fillBuffer(openal::Buffer &buf, sf_count_t num_samples) {
   std::unique_ptr<std::int16_t[]> samples(new std::int16_t[num_samples]);
   auto num_read = read(samples.get(), num_samples);
-  openal::Buffer buf;
   if (m_info.channels == 1) {
     buf.setMonoData(samples.get(), num_read, m_info.samplerate);
   } else if (m_info.channels == 2) {
@@ -145,5 +143,5 @@ openal::Buffer AudioFile::makeBuffer() {
         fmt::format("Invalid number of channels, expected 1 or 2, got {}",
                     m_info.channels));
   }
-  return buf;
+  return num_read;
 }

@@ -31,7 +31,8 @@ openal::Buffer &AudioManager::getBufferByPath(const char *path) {
   }
   // Load a new buffer from a file
   auto file = AudioFile::fromFile(path);
-  openal::Buffer buf = file.makeBuffer();
+  openal::Buffer buf;
+  file.fillBuffer(buf);
   // Insert the buffer into the loaded assets, and return a reference to it
   return m_loaded_buffers[path] = std::move(buf);
 }
