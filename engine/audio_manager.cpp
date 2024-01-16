@@ -34,12 +34,16 @@ openal::Buffer &AudioManager::getBufferByPath(const char *path) {
 void AudioManager::playByPath(const char *path) {
   openal::Buffer &buf = getBufferByPath(path);
   openal::Source src;
-  ALuint id = src.getID();
   if (m_direct_channels.isSupported()) {
     // Non-positional oneshot, play directly, remix if supported
     m_direct_channels.remix(src);
   }
   src.setBuffer(buf);
+  playOneshot(std::move(src));
+}
+
+void AudioManager::playOneshot(openal::Source &&src) {
+  ALuint id = src.getID();
   src.play();
   m_oneshots[id] = std::move(src);
 }

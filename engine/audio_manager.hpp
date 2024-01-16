@@ -35,6 +35,14 @@ public: // Member functions
    */
   void playByPath(const char *path);
 
+  /**
+   * Play a oneshot source
+   * Takes ownership of the passed source, and plays it until it finishes it.
+   * The source will automatically be garbage collected when it finishes playing
+   * @param source The source to turn into a oneshot
+   */
+  void playOneshot(openal::Source &&src);
+
   bool onEvent(SDL_Event &ev);
 
 private:
