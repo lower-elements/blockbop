@@ -5,6 +5,7 @@
 #include <string_view>
 
 #include "al/extensions/extension.hpp"
+#include "al/util.hpp"
 
 namespace openal {
 
@@ -13,13 +14,24 @@ typedef void(AL_APIENTRY *ALEVENTPROCSOFT)(ALenum eventType, ALuint object,
                                            const ALchar *message,
                                            ALvoid *userParam);
 
+// For internal use only
+AL_APIENTRY void callback_wrapper(ALenum, ALuint, ALuint, ALsizei,
+                                  const ALchar *, void *);
+
 class EventsExtension : public AlExtension {
 public: // Member methods
   EventsExtension();
   ~EventsExtension();
 
-  void resetCallback() { m_callback = {}; }
-  template <class T> void setCallback(T cb) { m_callback = cb; }
+  void resetCallback();
+
+  template <class T> void setCallback(T cb) {
+    m_callback = cb;
+    if (m_callback) {
+      alEventCallbackSOFT(callback_wrapper, &m_callback);
+      check_al_error();
+    }
+  }
 
   void setEvents(ALenum events[], ALsizei length, ALboolean enable);
 

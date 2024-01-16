@@ -1,11 +1,10 @@
 #include "al/extensions/events.hpp"
-#include "al/util.hpp"
 
 namespace openal {
 
-static void callback_wrapper(ALenum event, ALuint object, ALuint param,
-                             ALsizei length, const ALchar *message,
-                             void *udata) {
+AL_APIENTRY void callback_wrapper(ALenum event, ALuint object, ALuint param,
+                                  ALsizei length, const ALchar *message,
+                                  void *udata) {
   auto &callback = *static_cast<
       std::function<void(ALenum, ALuint, ALuint, std::string_view)> *>(udata);
   std::string_view msg(message, length);
@@ -15,11 +14,10 @@ static void callback_wrapper(ALenum event, ALuint object, ALuint param,
 }
 
 EventsExtension::EventsExtension()
-    : AlExtension("AL_SOFT_events"), m_callback() {
+    : AlExtension("AL_SOFTX_events"), m_callback() {
   if (isSupported()) {
     getFunction("alEventControlSOFT", this->alEventControlSOFT);
     getFunction("alEventCallbackSOFT", this->alEventCallbackSOFT);
-    alEventCallbackSOFT(callback_wrapper, &m_callback);
 
     E_EVENT_TYPE_BUFFER_COMPLETED_SOFT =
         getEnum("AL_EVENT_TYPE_BUFFER_COMPLETED_SOFT");
@@ -33,6 +31,12 @@ EventsExtension::~EventsExtension() {
   if (isSupported()) {
     alEventCallbackSOFT(nullptr, nullptr);
   }
+}
+
+void EventsExtension::resetCallback() {
+  m_callback = {};
+  alEventCallbackSOFT(nullptr, nullptr);
+  check_al_error();
 }
 
 void EventsExtension::setEvents(ALenum events[], ALsizei length,
