@@ -16,6 +16,11 @@ AudioManager::AudioManager(const char *devname)
     m_events.setCallback(
         std::bind(&AudioManager::onAlEvent, this, _1, _2, _3, _4));
     m_events.enableEvents(m_events.E_EVENT_TYPE_SOURCE_STATE_CHANGED_SOFT);
+  } else {
+    // Todo: Implement a fallback mechanism based on source polling for oneshot
+    // garbage collection
+    throw std::runtime_error("AL_SOFTX_events is unsupported, proceeding would "
+                             "allow memory leaks to occur!");
   }
 }
 
