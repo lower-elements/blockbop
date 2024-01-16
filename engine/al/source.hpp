@@ -18,7 +18,7 @@ public: // Member methods
   Source(Source &&);
   Source &operator=(Source &&);
 
-  ~Source();
+  virtual ~Source();
 
   // No copy
   Source(const Source &) = delete;
