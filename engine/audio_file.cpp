@@ -1,6 +1,7 @@
 #include <cassert>
 #include <exception>
 #include <memory>
+#include <utility>
 
 #include <fmt/core.h>
 
@@ -46,6 +47,20 @@ AudioFile::AudioFile(SDL2pp::RWops &&ops, int mode)
     throw std::runtime_error(
         fmt::format("Could not load audio file: {}", sf_strerror(nullptr)));
   }
+}
+
+AudioFile::AudioFile(AudioFile &&file)
+    : m_ops(std::move(file.m_ops)), m_sndfile(file.m_sndfile),
+      m_info(file.m_info) {
+  file.m_sndfile = nullptr;
+}
+
+AudioFile &AudioFile::operator=(AudioFile &&file) {
+  m_ops = std::move(file.m_ops);
+  m_sndfile = file.m_sndfile;
+  file.m_sndfile = nullptr;
+  m_info = file.m_info;
+  return *this;
 }
 
 AudioFile AudioFile::fromFile(const std::string &path, int mode) {

@@ -13,6 +13,10 @@ private: // Member methods
   AudioFile(SDL2pp::RWops &&ops, int mode = SFM_READ);
 
 public:
+  // Move constructors and assignment
+  AudioFile(AudioFile &&);
+  AudioFile &operator=(AudioFile &&);
+
   static AudioFile fromFile(const std::string &path, int mode = SFM_READ);
 
   // No copy
