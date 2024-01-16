@@ -35,6 +35,7 @@ public: // Member functions
    */
   void playByPath(const char *path);
 
+private:
   void onAlEvent(ALenum event, ALuint object, ALuint param,
                  std::string_view message);
 
@@ -43,6 +44,7 @@ private: // Member variables
   openal::Context m_ctx;
   std::unordered_map<std::string, openal::Buffer> m_loaded_buffers;
   std::unordered_map<ALuint, openal::Source> m_oneshots;
+  Uint32 m_openal_event;
 
 public: // OpenAL extensions
   openal::DirectChannelsExtension m_direct_channels;

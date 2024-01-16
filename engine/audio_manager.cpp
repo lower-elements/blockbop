@@ -1,7 +1,10 @@
+#include <cstdint>
+
 #include "audio_manager.hpp"
 
 AudioManager::AudioManager(const char *devname)
-    : m_dev(devname), m_ctx(m_dev.get()), m_loaded_buffers() {
+    : m_dev(devname), m_ctx(m_dev.get()), m_loaded_buffers(),
+      m_openal_event(SDL_RegisterEvents(1)) {
   m_ctx.makeCurrent();
   // Initialise extensions
   // Must be done after the context is current
@@ -44,5 +47,19 @@ void AudioManager::playByPath(const char *path) {
 void AudioManager::onAlEvent(ALenum event, ALuint object, ALuint param,
                              std::string_view message) {
   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Received OpenAL event: %.*s",
-               message.size(), message.data());
+               (int)message.size(), message.data());
+  SDL_Event ev;
+
+  // Build the SDL event
+  ev.type = m_openal_event;
+  ev.user.code = event;
+  ev.user.data1 = (void *)(uintptr_t)object;
+  ev.user.data2 = (void *)(uintptr_t)param;
+
+  int res = SDL_PushEvent(&ev);
+  if (res < 0) {
+    // Likely the queue is full
+    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Could not push OpenAL event: %s",
+                SDL_GetError());
+  }
 }
