@@ -3,6 +3,17 @@
 AudioManager::AudioManager(const char *devname)
     : m_dev(devname), m_ctx(m_dev.get()), m_loaded_buffers() {
   m_ctx.makeCurrent();
+  // Initialise extensions
+  // Must be done after the context is current
+  m_direct_channels = openal::DirectChannelsExtension();
+  m_events = openal::EventsExtension();
+  if (m_events.isSupported()) {
+    // Assign our onAlEvent member function to the callback
+    using namespace std::placeholders;
+    m_events.setCallback(
+        std::bind(&AudioManager::onAlEvent, this, _1, _2, _3, _4));
+    m_events.enableEvents(m_events.E_EVENT_TYPE_SOURCE_STATE_CHANGED_SOFT);
+  }
 }
 
 openal::Buffer &AudioManager::getBufferByPath(const char *path) {
@@ -28,4 +39,10 @@ void AudioManager::playByPath(const char *path) {
   src.setBuffer(buf);
   src.play();
   m_oneshots[id] = std::move(src);
+}
+
+void AudioManager::onAlEvent(ALenum event, ALuint object, ALuint param,
+                             std::string_view message) {
+  SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Received OpenAL event: %.*s",
+               message.size(), message.data());
 }
