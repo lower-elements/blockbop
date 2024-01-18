@@ -32,18 +32,36 @@ public: // Member functions
   /**
    * Play a oneshot source
    * Retrieves the buffer by path, creates an internal source, and plays it. The
-   * source will automatically be garbage collected when it finishes playing
+   * lifetime of the source is managed by the AudioManager, but can be extended
+   * by saving the returne value of this function.
    * @param path Path to the audio file to play
+   * @returns A handle to the loaded source, which can be saved to extend the
+   * lifetime of this source
    */
   std::shared_ptr<openal::Source> playByPath(const char *path);
 
   /**
+   * stream a oneshot source
+   * Plays a oneshot source by streaming the audio data from disk as it's
+   * required, reducing memory usage for long files. The lifetime of the source
+   * is managed by the AudioManager, but can be extended by saving the returne
+   * value of this function.
+   * @param path Path to the audio file to play
+   * @returns A handle to the loaded source, which can be saved to extend the
+   * lifetime of this source
+   */
+  std::shared_ptr<StreamingSource> streamByPath(const char *path);
+
+  /**
    * Play a oneshot source
-   * Takes ownership of the passed source, and plays it until it finishes it.
-   * The source will automatically be garbage collected when it finishes playing
+   * Takes a reference to the passed source, and plays it until it finishes it.
+   * The AudioManager will ensure the source stays alive until it has finished
+   * playing
    * @param source The source to turn into a oneshot
    */
   void playOneshot(std::shared_ptr<openal::Source> src);
+
+  void streamSource(std::shared_ptr<StreamingSource> src);
 
   bool onEvent(SDL_Event &ev);
 

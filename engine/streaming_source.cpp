@@ -40,11 +40,13 @@ void StreamingSource::fillAndQueue(ALsizei num_bufs, ALuint bufs[]) {
       // End of file, we don't need the additional buffers
       if (i < num_bufs) {
         alDeleteBuffers(num_bufs - i - 1, &bufs[i + 1]);
+        check_al_error();
       }
+      ++i;
       break;
     }
   }
   // Queue the buffers
-  alSourceQueueBuffers(m_id, i + 1, bufs);
+  alSourceQueueBuffers(m_id, i, bufs);
   check_al_error();
 }

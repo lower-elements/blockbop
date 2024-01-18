@@ -12,7 +12,7 @@ bool Blockbop::onUserCreate() {
   m_states.push(
       new Menu(*this, "Main Menu", {"Single Player", "Multi Player", "Exit"}));
 
-  m_audio.playByPath("complete.ogg");
+  m_audio.streamByPath("complete.ogg");
 
   return true;
 }

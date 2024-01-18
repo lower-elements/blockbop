@@ -46,7 +46,18 @@ std::shared_ptr<openal::Source> AudioManager::playByPath(const char *path) {
     m_direct_channels.remix(*src);
   }
   src->setBuffer(buf);
-  playOneshot(std::move(src));
+  playOneshot(src);
+  return src;
+}
+
+std::shared_ptr<StreamingSource> AudioManager::streamByPath(const char *path) {
+  auto file = AudioFile::fromFile(path);
+  auto src = std::make_shared<StreamingSource>(std::move(file));
+  if (m_direct_channels.isSupported()) {
+    // Non-positional oneshot, play directly, remix if supported
+    m_direct_channels.remix(*src);
+  }
+  streamSource(src);
   return src;
 }
 
@@ -54,6 +65,14 @@ void AudioManager::playOneshot(std::shared_ptr<openal::Source> src) {
   ALuint id = src->getID();
   src->play();
   m_oneshots[id] = std::move(src);
+}
+
+void AudioManager::streamSource(std::shared_ptr<StreamingSource> src) {
+  ALuint id = src->getID();
+  src->play();
+  std::weak_ptr<StreamingSource> weak_src(src);
+  m_streaming_sources[id] = std::move(weak_src);
+  m_oneshots[id] = src;
 }
 
 bool AudioManager::onEvent(SDL_Event &ev) {
@@ -74,6 +93,20 @@ bool AudioManager::onEvent(SDL_Event &ev) {
     if (iter != m_oneshots.end()) {
       // Source is a finished oneshot, delete it
       m_oneshots.erase(iter);
+    }
+  } else if (ev.user.code == m_events.E_EVENT_TYPE_BUFFER_COMPLETED_SOFT) {
+    // data1 = source, data2 = num buffers processed
+
+    auto iter = m_streaming_sources.find((ALuint)(uintptr_t)ev.user.data1);
+    if (iter != m_streaming_sources.end()) {
+      // Check if the streaming source is still alive
+      std::weak_ptr<StreamingSource> &ptr = iter->second;
+      if (auto source = ptr.lock()) {
+        source->notifyBuffersProcessed((ALsizei)(intptr_t)ev.user.data2);
+      } else {
+        // Source has been destroyed
+        m_streaming_sources.erase(iter);
+      }
     }
   }
 
