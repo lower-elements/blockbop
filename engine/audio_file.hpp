@@ -39,6 +39,8 @@ public:
   sf_count_t read(float *ptr, sf_count_t samples);
   sf_count_t read(double *ptr, sf_count_t samples);
 
+  sf_count_t seek(sf_count_t frames, int whence);
+
   /**
    * Fill a buffer with the entire audio file
    * @param buf OpenAL buffer to fill

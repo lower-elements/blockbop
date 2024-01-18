@@ -131,6 +131,14 @@ sf_count_t AudioFile::read(double *ptr, sf_count_t bytes) {
   return res;
 }
 
+sf_count_t AudioFile::seek(sf_count_t frames, int whence) {
+  auto res = sf_seek(m_sndfile, frames, whence);
+  if (res < 0) {
+    throw std::runtime_error(fmt::format("Could not seek in audio file: {}",
+                                         sf_strerror(m_sndfile)));
+  }
+}
+
 sf_count_t AudioFile::fillBuffer(openal::Buffer &buf, sf_count_t num_samples) {
   std::unique_ptr<std::int16_t[]> samples(new std::int16_t[num_samples]);
   auto num_read = read(samples.get(), num_samples);
