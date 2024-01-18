@@ -22,7 +22,7 @@ void check_alc_error(ALCdevice *device = nullptr);
 /**
  * An exception class thrown by check_alc_error()
  */
-class AlcError : std::exception {
+class AlcError : public std::exception {
 public:
   AlcError(ALCenum errcode, ALCdevice *device = nullptr);
 
@@ -42,7 +42,7 @@ void check_al_error();
 /**
  * An exception class thrown by check_al_error()
  */
-class AlError : std::exception {
+class AlError : public std::exception {
 public:
   AlError(ALenum errcode);
 
