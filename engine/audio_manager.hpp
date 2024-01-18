@@ -1,6 +1,7 @@
 #ifndef BBENGINE_AUDIO_MANAGER_HPP
 #define BBENGINE_AUDIO_MANAGER_HPP
 
+#include <memory>
 #include <unordered_map>
 
 #include "al/buffer.hpp"
@@ -10,6 +11,7 @@
 #include "al/extensions/events.hpp"
 #include "al/source.hpp"
 #include "audio_file.hpp"
+#include "streaming_source.hpp"
 
 class AudioManager {
 public: // Member functions
@@ -33,7 +35,7 @@ public: // Member functions
    * source will automatically be garbage collected when it finishes playing
    * @param path Path to the audio file to play
    */
-  void playByPath(const char *path);
+  std::shared_ptr<openal::Source> playByPath(const char *path);
 
   /**
    * Play a oneshot source
@@ -41,7 +43,7 @@ public: // Member functions
    * The source will automatically be garbage collected when it finishes playing
    * @param source The source to turn into a oneshot
    */
-  void playOneshot(openal::Source &&src);
+  void playOneshot(std::shared_ptr<openal::Source> src);
 
   bool onEvent(SDL_Event &ev);
 
@@ -53,7 +55,9 @@ private: // Member variables
   openal::Device m_dev;
   openal::Context m_ctx;
   std::unordered_map<std::string, openal::Buffer> m_loaded_buffers;
-  std::unordered_map<ALuint, openal::Source> m_oneshots;
+  std::unordered_map<ALuint, std::shared_ptr<openal::Source>> m_oneshots;
+  std::unordered_map<ALuint, std::weak_ptr<StreamingSource>>
+      m_streaming_sources;
   Uint32 m_openal_event;
 
 public: // OpenAL extensions
