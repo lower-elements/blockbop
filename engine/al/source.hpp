@@ -49,7 +49,7 @@ public: // Member methods
   void rewind();
   void pause();
 
-private: // Member variables
+protected: // Member variables
   ALuint m_id;
 };
 

@@ -30,6 +30,7 @@
 #include "state/manager.hpp"
 #include "state/menu.hpp"
 #include "state/state.hpp"
+#include "streaming_source.hpp"
 #include <string>
 #include <string_view>
 #include "tts/espeak_ng.hpp"
