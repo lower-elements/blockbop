@@ -15,6 +15,7 @@ add_library(engine STATIC
     state/manager.cpp
     state/state.cpp
     state/menu.cpp
+    state/text_input.cpp
     streaming_source.cpp
     tts/espeak_ng.cpp
     util.cpp
