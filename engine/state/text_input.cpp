@@ -27,28 +27,43 @@ bool TextInputState::onEvent(SDL_Event &ev) {
     insertText(ev.text.text);
     return true;
   case SDL_KEYDOWN:
-    switch (ev.key.keysym.sym) {
-    case SDLK_BACKSPACE:
-      backspace();
-      return true;
-    case SDLK_DELETE:
-      del();
-      return true;
-    case SDLK_LEFT:
-      cursorLeft();
-      return true;
-    case SDLK_RIGHT:
-      cursorRight();
-      return true;
-    case SDLK_HOME:
-      cursorBeginning();
-      return true;
-    case SDLK_END:
-      cursorEnd();
-      return true;
-    default:
-      return false;
+    if (ev.key.keysym.mod & KMOD_CTRL) {
+      switch (ev.key.keysym.sym) {
+      case SDLK_v: {
+        char *clipboard_text = SDL_GetClipboardText();
+        if (!clipboard_text) {
+          return true;
+        }
+        if (*clipboard_text != '\0') {
+          insertText(clipboard_text);
+        }
+        SDL_free(clipboard_text);
+      }
+        return true;
+      }
+    } else if (!(ev.key.keysym.mod & KMOD_CTRL)) {
+      switch (ev.key.keysym.sym) {
+      case SDLK_BACKSPACE:
+        backspace();
+        return true;
+      case SDLK_DELETE:
+        del();
+        return true;
+      case SDLK_LEFT:
+        cursorLeft();
+        return true;
+      case SDLK_RIGHT:
+        cursorRight();
+        return true;
+      case SDLK_HOME:
+        cursorBeginning();
+        return true;
+      case SDLK_END:
+        cursorEnd();
+        return true;
+      }
     }
+    return false;
   default:
     return false;
   }
