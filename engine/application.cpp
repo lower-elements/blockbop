@@ -14,6 +14,18 @@ Application::Application(const char *org_name, const char *app_name, int width,
       m_states(), m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free),
       m_continue_running(true) {
   setSDLLogPriority();
+
+  // Set hints
+  SDL_SetHint(SDL_HINT_APP_NAME, app_name);
+
+  // Todo: Support IMEs properly
+  SDL_SetHint(SDL_HINT_IME_INTERNAL_EDITING, "1");
+  SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+#ifdef SDL_HINT_IME_SUPPORT_EXTENDED_TEXT
+  SDL_SetHint(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1");
+#endif
+
+  SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 }
 
 Application::~Application() { onUserDestroy(); }
