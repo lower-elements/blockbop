@@ -41,7 +41,7 @@ protected: // Member methods
   virtual ALenum getEnum(const char *) const override;
   virtual void *getProcAddress(const char *) const override;
 
-private: // Member variables
+protected: // Member variables
   ALCdevice *m_dev;
 };
 

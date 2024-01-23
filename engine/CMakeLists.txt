@@ -5,6 +5,7 @@ add_library(engine STATIC
     al/extensions/extension.cpp
     al/extensions/direct_channels.cpp
     al/extensions/events.cpp
+    al/extensions/pause_device.cpp
     al/source.cpp
     al/util.cpp
     application.cpp
