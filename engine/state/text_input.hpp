@@ -26,6 +26,8 @@ protected:
   void del();
   void cursorLeft();
   void cursorRight();
+  void cursorBeginning();
+  void cursorEnd();
 
 private: // Member variables
   std::string m_prompt;

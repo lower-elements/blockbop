@@ -40,6 +40,12 @@ bool TextInputState::onEvent(SDL_Event &ev) {
     case SDLK_RIGHT:
       cursorRight();
       return true;
+    case SDLK_HOME:
+      cursorBeginning();
+      return true;
+    case SDLK_END:
+      cursorEnd();
+      return true;
     default:
       return false;
     }
@@ -128,4 +134,23 @@ void TextInputState::cursorRight() {
   // Move to the calculated position
   m_pos = new_pos;
   m_app.m_speaker->key(ch.c_str());
+}
+
+void TextInputState::cursorBeginning() {
+  if (m_text.empty() || m_pos == 0) {
+    return;
+  }
+
+  m_pos = 0;
+  auto next_pos = nextUTF8Character(m_text, 0);
+  std::string ch(m_text, 0, next_pos);
+  m_app.m_speaker->key(ch.c_str());
+}
+
+void TextInputState::cursorEnd() {
+  if (m_text.empty() || m_pos == m_text.size()) {
+    return;
+  }
+  m_pos = m_text.size();
+  m_app.m_speaker->speak("blank");
 }
