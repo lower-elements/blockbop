@@ -55,12 +55,41 @@ int Application::run() {
 }
 
 bool Application::onUserEvent(SDL_Event &ev) {
-  // By default we quit if we receive SDL_QUIT
-  if (ev.type == SDL_QUIT) {
+  switch (ev.type) {
+  case SDL_QUIT:
+    // By default we quit if we receive SDL_QUIT
     quit();
     return true;
+  case SDL_APP_WILLENTERBACKGROUND:
+    goto pause_audio;
+  case SDL_APP_DIDENTERFOREGROUND:
+    goto resume_audio;
+  case SDL_WINDOWEVENT:
+    switch (ev.window.event) {
+    case SDL_WINDOWEVENT_FOCUS_LOST:
+      goto pause_audio;
+    case SDL_WINDOWEVENT_FOCUS_GAINED:
+      goto resume_audio;
+    default:
+      return false;
+    }
+  default:
+    return false;
   }
-  return false;
+
+pause_audio:
+  // Pause audio if possible
+  if (m_audio.m_pause_device.isSupported()) {
+    m_audio.m_pause_device.pause();
+  }
+  return false; // Allow other handlers to process this
+
+resume_audio:
+  // Resume audio if possible
+  if (m_audio.m_pause_device.isSupported()) {
+    m_audio.m_pause_device.resume();
+  }
+  return false; // Allow other handlers to process this
 }
 
 bool Application::onUserCreate() { return true; }

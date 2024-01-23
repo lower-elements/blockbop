@@ -3,8 +3,8 @@
 #include "audio_manager.hpp"
 
 AudioManager::AudioManager(const char *devname)
-    : m_dev(devname), m_ctx(m_dev.get()),
-      m_openal_event(SDL_RegisterEvents(1)) {
+    : m_dev(devname), m_ctx(m_dev.get()), m_openal_event(SDL_RegisterEvents(1)),
+      m_pause_device(m_dev.get()) {
   m_ctx.makeCurrent();
   // Initialise extensions
   // Must be done after the context is current

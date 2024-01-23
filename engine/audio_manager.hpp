@@ -9,6 +9,7 @@
 #include "al/device.hpp"
 #include "al/extensions/direct_channels.hpp"
 #include "al/extensions/events.hpp"
+#include "al/extensions/pause_device.hpp"
 #include "al/source.hpp"
 #include "audio_file.hpp"
 #include "streaming_source.hpp"
@@ -81,6 +82,7 @@ private: // Member variables
 public: // OpenAL extensions
   openal::DirectChannelsExtension m_direct_channels;
   openal::EventsExtension m_events;
+  openal::PauseDeviceExtension m_pause_device;
 };
 
 #endif
