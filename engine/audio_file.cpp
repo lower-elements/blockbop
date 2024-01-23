@@ -137,6 +137,7 @@ sf_count_t AudioFile::seek(sf_count_t frames, int whence) {
     throw std::runtime_error(fmt::format("Could not seek in audio file: {}",
                                          sf_strerror(m_sndfile)));
   }
+  return res;
 }
 
 sf_count_t AudioFile::fillBuffer(openal::Buffer &buf, sf_count_t num_samples) {
