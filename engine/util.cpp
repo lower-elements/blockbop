@@ -20,3 +20,43 @@ void setSDLLogPriority() {
                 "Unknown value for BLOCKBOP_LOG: '%s'", log_env);
   }
 }
+
+std::size_t nextUTF8Character(const std::string &utf8_str,
+                              std::size_t current_position) {
+  std::size_t size = utf8_str.size();
+
+  if (current_position >= size) {
+    // Position is at or beyond the end of the string
+    return std::string::npos;
+  }
+
+  // Move to the next character
+  for (std::size_t i = current_position + 1; i < size; ++i) {
+    if ((utf8_str[i] & 0xC0) != 0x80) {
+      // Found the start of the next UTF-8 character
+      return i;
+    }
+  }
+
+  // No next character found
+  return std::string::npos;
+}
+
+std::size_t prevUTF8Character(const std::string &utf8_str,
+                              std::size_t current_position) {
+  if (current_position == 0 || current_position == std::string::npos) {
+    // Position is at the beginning or the string is empty
+    return std::string::npos;
+  }
+
+  // Move to the previous character
+  for (std::size_t i = current_position - 1; i != std::string::npos; --i) {
+    if ((utf8_str[i] & 0xC0) != 0x80) {
+      // Found the start of the previous UTF-8 character
+      return i;
+    }
+  }
+
+  // No previous character found
+  return std::string::npos;
+}
