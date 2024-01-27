@@ -3,6 +3,7 @@
 #include <memory>
 #include <utility>
 
+#include <alext.h>
 #include <fmt/core.h>
 
 #include "audio_file.hpp"
@@ -141,7 +142,11 @@ sf_count_t AudioFile::seek(sf_count_t frames, int whence) {
 }
 
 sf_count_t AudioFile::fillBuffer(openal::Buffer &buf, sf_count_t num_samples) {
+#ifdef AL_EXT_float32
+  std::unique_ptr<float> samples(new float[num_samples]);
+#else
   std::unique_ptr<std::int16_t[]> samples(new std::int16_t[num_samples]);
+#endif
   auto num_read = read(samples.get(), num_samples);
   if (m_info.channels == 1) {
     buf.setMonoData(samples.get(), num_read, m_info.samplerate);
