@@ -34,13 +34,13 @@ void Buffer::setMonoData(std::int8_t *data, ALsizei len, ALsizei freq) {
   check_al_error();
 }
 
-void Buffer::setMonoData(std::int16_t *data, ALsizei len, ALsizei freq) {
-  alBufferData(m_id, AL_FORMAT_MONO16, data, len * sizeof(data[0]), freq);
+void Buffer::setStereoData(std::int8_t *data, ALsizei len, ALsizei freq) {
+  alBufferData(m_id, AL_FORMAT_STEREO8, data, len * sizeof(data[0]), freq);
   check_al_error();
 }
 
-void Buffer::setStereoData(std::int8_t *data, ALsizei len, ALsizei freq) {
-  alBufferData(m_id, AL_FORMAT_STEREO8, data, len * sizeof(data[0]), freq);
+void Buffer::setMonoData(std::int16_t *data, ALsizei len, ALsizei freq) {
+  alBufferData(m_id, AL_FORMAT_MONO16, data, len * sizeof(data[0]), freq);
   check_al_error();
 }
 
@@ -48,5 +48,18 @@ void Buffer::setStereoData(std::int16_t *data, ALsizei len, ALsizei freq) {
   alBufferData(m_id, AL_FORMAT_STEREO16, data, len * sizeof(data[0]), freq);
   check_al_error();
 }
+
+#ifdef AL_EXT_float32
+void Buffer::setMonoData(float *data, ALsizei len, ALsizei freq) {
+  alBufferData(m_id, AL_FORMAT_MONO_FLOAT32, data, len * sizeof(data[0]), freq);
+  check_al_error();
+}
+
+void Buffer::setStereoData(float *data, ALsizei len, ALsizei freq) {
+  alBufferData(m_id, AL_FORMAT_STEREO_FLOAT32, data, len * sizeof(data[0]),
+               freq);
+  check_al_error();
+}
+#endif
 
 } // namespace openal
