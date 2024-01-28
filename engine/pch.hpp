@@ -1,3 +1,5 @@
+#include "config.hpp"
+
 #include <SDL.h>
 #include <SDL2pp/RWops.hh>
 #include <SDL2pp/SDL2pp.hh>
@@ -6,7 +8,11 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
+
+#if HAVE_ESPEAK_NG
 #include <espeak-ng/espeak_ng.h>
+#endif
+
 #include <exception>
 #include <fmt/core.h>
 #include <functional>
