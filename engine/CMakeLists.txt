@@ -18,6 +18,7 @@ add_library(engine STATIC
     state/text_input.cpp
     streaming_source.cpp
     tts/espeak_ng.cpp
+    tts/window_title.cpp
     util.cpp
     )
 target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
