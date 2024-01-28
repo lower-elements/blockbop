@@ -17,10 +17,20 @@ add_library(engine STATIC
     state/menu.cpp
     state/text_input.cpp
     streaming_source.cpp
-    tts/espeak_ng.cpp
+    tts/chooser.cpp
     tts/window_title.cpp
     util.cpp
     )
-target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(engine PUBLIC espeak-ng fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)
 target_precompile_headers(engine PUBLIC pch.hpp)
+target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
+# Configure-time configuration
+if (TARGET espeak-ng)
+    target_sources(engine PRIVATE tts/espeak_ng.cpp)
+    target_link_libraries(engine PRIVATE espeak-ng)
+    set(HAVE_ESPEAK_NG 1)
+endif()
+
+configure_file(config.hpp.in config.hpp)
+
+target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)

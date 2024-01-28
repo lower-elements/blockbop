@@ -1,0 +1,8 @@
+#ifndef BBENGINE_CONFIG_HPP
+#define BBENGINE_CONFIG_HPP
+
+// clang-format off
+#cmakedefine01 HAVE_ESPEAK_NG
+// clang-format on
+
+#endif

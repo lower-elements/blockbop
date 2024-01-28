@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 #include "application.hpp"
-#include "tts/espeak_ng.hpp"
+#include "tts/chooser.hpp"
 #include "util.hpp"
 
 Application::Application(const char *org_name, const char *app_name, int width,
@@ -10,8 +10,8 @@ Application::Application(const char *org_name, const char *app_name, int width,
     : m_sdl(SDL_INIT_VIDEO),
       m_win(app_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width,
             height, SDL_WINDOW_HIDDEN),
-      m_audio(), m_speaker(std::make_unique<tts::EspeakNgSpeaker>()),
-      m_states(), m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free),
+      m_audio(), m_speaker(tts::choose(*this)), m_states(),
+      m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free),
       m_continue_running(true) {
   setSDLLogPriority();
 

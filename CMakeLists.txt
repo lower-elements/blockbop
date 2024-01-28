@@ -6,6 +6,9 @@ project(BlockBop
     LANGUAGES CXX
     )
 
+# User-writable options
+option(BB_USE_ESPEAK_NG "Compile support for the espeak-ng tts engine" ON)
+
 # Global project options
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -32,8 +35,11 @@ FetchContent_Declare(
 )
 endif()
 
-pkg_check_modules(espeak_ng espeak-ng)
-if(NOT espeak_ng_FOUND)
+if (BB_USE_ESPEAK_NG)
+pkg_check_modules(espeak_ng espeak-ng IMPORTED_TARGET)
+if(espeak_ng_FOUND)
+    add_library(espeak-ng ALIAS PkgConfig::espeak_ng)
+else()
 FetchContent_Declare(
   espeak-ng
   # This has to be master right now, as the latest release doesn't include the CMake buildsystem
@@ -43,6 +49,7 @@ FetchContent_Declare(
   TLS_VERIFY true
   DOWNLOAD_EXTRACT_TIMESTAMP true
 )
+endif()
 endif()
 
 FetchContent_Declare(
@@ -130,7 +137,7 @@ FetchContent_MakeAvailable(flatbuffers fmt glm OpenAL SDL2 SDL2pp sol2)
 if (NOT enet_FOUND)
     FetchContent_MakeAvailable(enet)
 endif()
-if (NOT espeak_ng_FOUND)
+if (BB_USE_ESPEAK_NG AND NOT espeak_ng_FOUND)
     FetchContent_MakeAvailable(espeak-ng)
 endif()
 if (NOT SndFile_FOUND)
