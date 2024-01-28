@@ -2,7 +2,9 @@
 
 #include "application.hpp"
 #include "config.hpp"
+#if HAVE_ESPEAK_NG
 #include "tts/espeak_ng.hpp"
+#endif
 #include "tts/window_title.hpp"
 
 #include "tts/chooser.hpp"
