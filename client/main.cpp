@@ -4,7 +4,9 @@
 
 #include "blockbop.hpp"
 
-int main() {
+int main(int argc, char *argv[]) {
+  (void)argc, (void)argv;
+
   try {
     Blockbop app;
     return app.run();
