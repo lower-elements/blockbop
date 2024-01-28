@@ -33,4 +33,4 @@ endif()
 
 configure_file(config.hpp.in config.hpp)
 
-target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)
+target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL SDL2 SDL2main SDL2pp sndfile)
