@@ -12,6 +12,7 @@ add_library(engine STATIC
     application.hpp
     audio_file.cpp
     audio_manager.cpp
+    charsets.cpp
     library.cpp
     state/manager.cpp
     state/state.cpp
