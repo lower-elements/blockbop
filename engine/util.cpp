@@ -60,3 +60,58 @@ std::size_t prevUTF8Character(const std::string &utf8_str,
   // No previous character found
   return std::string::npos;
 }
+
+char32_t UTF8toUTF32(const char *utf8_char) {
+  if (!utf8_char || (*utf8_char == '\0')) {
+    // Invalid input
+    return 0;
+  }
+
+  unsigned char first_byte = (unsigned char)utf8_char[0];
+
+  // Determine the number of bytes in the UTF-8 sequence
+  size_t num_bytes;
+  if ((first_byte & 0x80) == 0x00) {
+    num_bytes = 1;
+  } else if ((first_byte & 0xE0) == 0xC0) {
+    num_bytes = 2;
+  } else if ((first_byte & 0xF0) == 0xE0) {
+    num_bytes = 3;
+  } else if ((first_byte & 0xF8) == 0xF0) {
+    num_bytes = 4;
+  } else {
+    // Invalid UTF-8 sequence
+    return 0;
+  }
+
+  char32_t codepoint = (unsigned char)utf8_char[0];
+
+  // Extract the remaining bytes of the UTF-8 sequence
+  for (size_t i = 1; i < num_bytes; ++i) {
+    if ((utf8_char[i] & 0xC0) != 0x80) {
+      // Invalid continuation byte
+      return 0;
+    }
+    codepoint = (codepoint << 6) | (utf8_char[i] & 0x3F);
+  }
+
+  return codepoint;
+}
+
+std::size_t UTF32toUTF16(char32_t codepoint, char16_t utf16[2]) {
+  if (codepoint < 0x10000) {
+    // Single code unit (BMP)
+    utf16[0] = (char16_t)codepoint;
+    utf16[1] = 0; // Second unit is not used
+    return 1;
+  } else if (codepoint <= 0x10FFFF) {
+    // Surrogate pair for code points outside BMP
+    utf16[0] = (char16_t)(((codepoint - 0x10000) >> 10) + 0xD800);
+    utf16[1] = (char16_t)(((codepoint - 0x10000) & 0x3FF) + 0xDC00);
+    return 2;
+  } else {
+    // Invalid code point
+    utf16[0] = utf16[1] = 0;
+    return 0;
+  }
+}
