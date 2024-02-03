@@ -24,6 +24,14 @@ std::size_t prevUTF8Character(const std::string &utf8_str,
 char32_t UTF8toUTF32(const char *utf8_char);
 std::size_t UTF32toUTF16(char32_t codepoint, char16_t utf16[2]);
 
+inline std::size_t UTF8toUTF16(const char *utf8_char, char16_t utf16[2]) {
+  auto codepoint = UTF8toUTF32(utf8_char);
+  if (codepoint == 0) {
+    return 0;
+  }
+  return UTF32toUTF16(codepoint, utf16);
+}
+
 class Iconv {
 public: // Member methods
   Iconv(const char *tocode, const char *fromcode);
