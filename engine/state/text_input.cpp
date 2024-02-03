@@ -1,8 +1,10 @@
 #include <utility>
 
 #include "application.hpp"
+#include "charsets.hpp"
 #include "state/text_input.hpp"
-#include "util.hpp"
+
+using namespace charsets;
 
 TextInputState::TextInputState(Application &app, std::string prompt,
                                std::string default_text)
