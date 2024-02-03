@@ -7,7 +7,10 @@ project(BlockBop
     )
 
 # User-writable options
-option(BB_USE_ESPEAK_NG "Compile support for the espeak-ng tts engine" ON)
+option(BB_USE_ESPEAK_NG "Compile support for the espeak-ng tts provider" ON)
+#if (win32)
+option(BB_USE_TOLK "Compile support for the Tolk tts provider" ON)
+#endif()
 
 # Global project options
 set(CMAKE_CXX_STANDARD 20)

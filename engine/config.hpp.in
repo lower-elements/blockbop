@@ -3,6 +3,7 @@
 
 // clang-format off
 #cmakedefine01 HAVE_ESPEAK_NG
+#cmakedefine01 HAVE_TOLK
 // clang-format on
 
 #endif

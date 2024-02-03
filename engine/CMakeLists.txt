@@ -34,6 +34,11 @@ if (TARGET espeak-ng)
     set(HAVE_ESPEAK_NG 1)
 endif()
 
+if (BB_USE_TOLK)
+    target_sources(engine PRIVATE tts/tolk.cpp)
+    set(HAVE_TOLK 1)
+endif()
+
 configure_file(config.hpp.in config.hpp)
 
 target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)

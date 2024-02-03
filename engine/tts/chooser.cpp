@@ -5,6 +5,9 @@
 #if HAVE_ESPEAK_NG
 #include "tts/espeak_ng.hpp"
 #endif
+#if HAVE_TOLK
+#include "tts/tolk.hpp"
+#endif
 #include "tts/window_title.hpp"
 
 #include "tts/chooser.hpp"
@@ -18,13 +21,21 @@ static std::unique_ptr<Speaker> make_espeak_ng_speaker(Application &) {
   return std::make_unique<EspeakNgSpeaker>();
 }
 #endif
+#if HAVE_TOLK
+static std::unique_ptr<Speaker> make_tolk_speaker(Application &) {
+  return std::make_unique<TolkSpeaker>();
+}
+#endif
 static std::unique_ptr<Speaker> make_window_title_speaker(Application &app) {
   return std::make_unique<WindowTitleSpeaker>(app);
 }
 
 static const Factory FACTORIES[] {
+#if HAVE_TOLK
+  make_tolk_speaker,
+#endif
 #if HAVE_ESPEAK_NG
-  make_espeak_ng_speaker,
+      make_espeak_ng_speaker,
 #endif
       make_window_title_speaker
 };
