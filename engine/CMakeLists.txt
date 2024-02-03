@@ -20,6 +20,7 @@ add_library(engine STATIC
     state/text_input.cpp
     streaming_source.cpp
     tts/chooser.cpp
+    tts/tolk.cpp
     tts/window_title.cpp
     util.cpp
     )
