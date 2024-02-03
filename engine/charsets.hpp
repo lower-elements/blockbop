@@ -63,7 +63,7 @@ convert(const char *tocode, const char *fromcode, std::string_view text) {
 template <class T = char>
 std::unique_ptr<T[], void (*)(void *)>
 convert(const char *tocode, const char *fromcode, const std::string &text) {
-  return convert<T>(tocode, fromcode, text.data(), text.size());
+  return convert<T>(tocode, fromcode, text.c_str(), text.size() + 1);
 }
 
 } // namespace charsets
