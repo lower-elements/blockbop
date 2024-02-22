@@ -14,7 +14,7 @@ AL_APIENTRY void callback_wrapper(ALenum event, ALuint object, ALuint param,
 }
 
 EventsExtension::EventsExtension()
-    : AlExtension("AL_SOFTX_events"), m_callback() {
+    : AlExtension("AL_SOFT_events"), m_callback() {
   if (isSupported()) {
     getFunction("alEventControlSOFT", this->alEventControlSOFT);
     getFunction("alEventCallbackSOFT", this->alEventCallbackSOFT);
