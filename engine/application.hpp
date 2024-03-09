@@ -1,6 +1,7 @@
 #ifndef BBENGINE_APPLICATION_HPP
 #define BBENGINE_APPLICATION_HPP
 
+#include <SDL_opengles2.h>
 #include <memory>
 
 #include <SDL.h>
@@ -80,6 +81,7 @@ public: // Member variables
   StateManager m_states;
 
 private:
+  SDL_GLContext m_gl_ctx;
   std::unique_ptr<char[], void (*)(void *)> m_pref_path;
   bool m_continue_running;
 };

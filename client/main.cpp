@@ -3,11 +3,13 @@
 #include <exception>
 
 #include "blockbop.hpp"
+#include "init.hpp"
 
 int main(int argc, char *argv[]) {
   (void)argc, (void)argv;
 
   try {
+    init_engine();
     Blockbop app;
     return app.run();
   } catch (const std::exception &e) {

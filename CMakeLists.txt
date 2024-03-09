@@ -8,13 +8,14 @@ project(BlockBop
 
 # User-writable options
 option(BB_USE_ESPEAK_NG "Compile support for the espeak-ng tts provider" ON)
-#if (win32)
+if (win32)
 option(BB_USE_TOLK "Compile support for the Tolk tts provider" ON)
-#endif()
+endif()
 
 # Global project options
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
@@ -145,6 +146,12 @@ if (BB_USE_ESPEAK_NG AND NOT espeak_ng_FOUND)
 endif()
 if (NOT SndFile_FOUND)
     FetchContent_MakeAvailable(sndfile)
+endif()
+
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.27.0)
+    find_package(OpenGL REQUIRED COMPONENTS GLES3)
+else()
+    find_package(OpenGLES3 REQUIRED)
 endif()
 
 # Build the client, server, and their internal support libraries

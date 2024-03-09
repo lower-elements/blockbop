@@ -13,6 +13,7 @@ add_library(engine STATIC
     audio_file.cpp
     audio_manager.cpp
     charsets.cpp
+    init.cpp
     library.cpp
     state/manager.cpp
     state/state.cpp
@@ -41,4 +42,4 @@ endif()
 
 configure_file(config.hpp.in config.hpp)
 
-target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL SDL2 SDL2pp sndfile)
+target_link_libraries(engine PUBLIC  fmt glm::glm OpenAL::OpenAL OpenGL::GLES3 SDL2 SDL2pp sndfile)
