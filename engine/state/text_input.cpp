@@ -113,11 +113,11 @@ void TextInputState::del() {
   }
   auto count = new_pos - m_pos;
   std::string deleted_text(&m_text[m_pos], count);
-  deleted_text += " deleted";
 
   m_text.erase(m_pos, count);
 
-  m_app.m_speaker->speak(deleted_text);
+  m_app.m_speaker->key(deleted_text.c_str());
+  m_app.m_speaker->speak(" deleted", false);
 }
 
 void TextInputState::cursorLeft() {
