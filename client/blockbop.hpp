@@ -9,6 +9,7 @@ public:
 
 protected:
   virtual bool onUserCreate() override;
+  virtual bool onUserEvent(SDL_Event &ev) override;
 };
 
 #endif

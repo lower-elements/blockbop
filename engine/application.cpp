@@ -16,7 +16,7 @@ Application::Application(const char *org_name, const char *app_name, int width,
             height,
             SDL_WINDOW_HIDDEN | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI),
       m_audio(), m_speaker(tts::choose(*this)), m_states(), m_gl_ctx(nullptr),
-      m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free),
+      m_pref_path(SDL_GetPrefPath(org_name, app_name), SDL_free), m_fps(0.0f),
       m_continue_running(true) {
   SDL_SetHint(SDL_HINT_APP_NAME, app_name);
   m_gl_ctx = SDL_GL_CreateContext(m_win.Get());
@@ -48,6 +48,10 @@ int Application::run() {
   // This variable handles internal engine quit conditions, the member variable
   // handles explicit requests to quit via the quit() method
   bool continue_running = true;
+  // Delta times and frame-rate calculation
+  float perf_freq = (float)SDL_GetPerformanceFrequency();
+  float delta_time = 0.0f;
+  Uint64 last = SDL_GetPerformanceCounter();
   // Main loop
   do {
     // Clear the screen
@@ -74,6 +78,12 @@ int Application::run() {
 
     // Swap the backbuffer onto the screen
     SDL_GL_SwapWindow(m_win.Get());
+
+    // Calculate delta time
+    Uint64 now = SDL_GetPerformanceCounter();
+    delta_time = (float)(now - last) / perf_freq;
+    m_fps = 1.0f / delta_time;
+    last = now;
   } while (continue_running && m_continue_running);
 
   return EXIT_SUCCESS;

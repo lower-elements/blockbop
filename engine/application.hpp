@@ -50,6 +50,11 @@ public:
    */
   const char *getPrefPath() const { return m_pref_path.get(); }
 
+  /**
+   * Get the application's current frame rate
+   */
+  float getFrameRate() const noexcept { return m_fps; }
+
 protected: // Functions implemented by subclasses
   /**
    * Called once when the application begins running
@@ -83,6 +88,7 @@ public: // Member variables
 private:
   SDL_GLContext m_gl_ctx;
   std::unique_ptr<char[], void (*)(void *)> m_pref_path;
+  float m_fps;
   bool m_continue_running;
 };
 
